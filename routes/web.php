@@ -19,16 +19,20 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $posts = \App\Models\Post::all()->where('user_id', '=', \Illuminate\Support\Facades\Auth::id());
+
+    return view('dashboard', [
+        'posts' => $posts
+    ]);
 })->middleware(['auth'])->name('dashboard');
 
 
 // Posts
-Route::get('/post/{post_slug}', [PostsController::class, 'show'])->name('showPost');
+Route::get('/post/{post_slug}', [PostsController::class, 'show'])->name('post.show');
 Route::middleware('auth')->group(function () {
-    Route::get('/post', [PostsController::class, 'createView'])->name('createViewPost');
-    Route::post('/post', [PostsController::class, 'create'])->name('createPost');
-    Route::delete('/post/{id}', [PostsController::class, 'remove'])->name('removePost');
+    Route::get('/post', [PostsController::class, 'createView'])->name('post.view');
+    Route::post('/post', [PostsController::class, 'create'])->name('post.create');
+    Route::delete('/post/{post}', [PostsController::class, 'remove'])->name('post.remove');
 });
 
 
