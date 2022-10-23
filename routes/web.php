@@ -31,7 +31,9 @@ Route::get('/dashboard', function () {
 Route::get('/post/{post_slug}', [PostsController::class, 'show'])->name('post.show');
 Route::middleware('auth')->group(function () {
     Route::get('/post', [PostsController::class, 'createView'])->name('post.view');
+    Route::get('/post/edit/{post}', [PostsController::class, 'editView'])->name('post.editView');
     Route::post('/post', [PostsController::class, 'create'])->name('post.create');
+    Route::patch('/post', [PostsController::class, 'edit'])->name('post.edit');
     Route::delete('/post/{post}', [PostsController::class, 'remove'])->name('post.remove');
 });
 

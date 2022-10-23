@@ -34,6 +34,18 @@ class PostsController extends Controller
     }
 
     /**
+     * Show edit post view
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function editView(Post $post)
+    {
+        return view('posts/edit-post', [
+            'post' => $post
+        ]);
+    }
+
+    /**
      * Create a new post
      *
      * @param  Request  $request
@@ -41,9 +53,9 @@ class PostsController extends Controller
      */
     public function create(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'post_title' => 'required|max:255',
-            'post_slug'  => 'required|max:255'
+            'post_slug'  => 'required|unique:App\Models\Post,post_slug|max:255'
         ]);
 
         $post = Post::create([
@@ -53,6 +65,25 @@ class PostsController extends Controller
             'user_id'      => Auth::id(),
             'post_content' => $request->post_content,
         ]);
+
+        return redirect()->route('dashboard');
+    }
+
+    /**
+     * Edit a post
+     *
+     * @param  Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function edit(Request $request, $id)
+    {
+        dd($id);
+        $request->validate([
+            'post_title' => 'required|max:255',
+            'post_slug'  => 'required|unique:App\Models\Post,post_slug|max:255'
+        ]);
+
+        Post::where('id', $id)->update($request->all());
 
         return redirect()->route('dashboard');
     }

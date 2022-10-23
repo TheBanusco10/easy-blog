@@ -2,7 +2,7 @@
     <x-header :header="__('Dashboard')"/>
 
     <div class="container m-auto w-7/12 py-12 flex justify-end">
-        <a href="{{ route('post.view') }}" class="bg-emerald-700 rounded p-2 text-white">
+        <a href="{{ route('post.view') }}" class="bg-emerald-700 p-2 text-white">
             {{ __('Add post')  }}
         </a>
     </div>
